@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ARKDEV — Formulir Pengajuan &amp; Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12233b;
+    --navy-2:#1f3a5f;
+    --gold:#c9922b;
+    --gold-light:#e9c886;
+    --paper:#f6f4ef;
+    --ink:#1a1e24;
+    --muted:#6b7280;
+    --line:#d9dee5;
+    --ok:#2e7d5b;
+    --danger:#a33;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{
+    background:linear-gradient(180deg,var(--navy) 0%,var(--navy-2) 100%);
+    color:#fff;
+    padding:48px 20px 64px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:-1px; height:40px;
+    background:var(--paper);
+    -webkit-mask: radial-gradient(circle at 50% -40%, transparent 0, transparent 39px, black 40px);
+    mask: radial-gradient(circle at 50% -40%, transparent 0, transparent 39px, black 40px);
+  }
+  .hero-inner{max-width:720px;margin:0 auto;position:relative;z-index:1;}
+  .brand{font-family:'Fraunces',serif;font-weight:700;font-size:14px;letter-spacing:.18em;color:var(--gold-light);text-transform:uppercase;}
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(28px,5vw,38px);
+    margin:10px 0 8px;
+    max-width:14ch;
+  }
+  .sub{color:#c7d2e0;font-size:15px;max-width:44ch;}
+  .progress{display:flex;gap:6px;margin-top:28px;}
+  .progress i{flex:1;height:3px;background:rgba(255,255,255,.22);border-radius:3px;overflow:hidden;}
+  .progress i em{display:block;height:100%;width:0%;background:var(--gold);transition:width .3s;}
+  form{margin-top:-32px;position:relative;z-index:2;}
+  .card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:28px 24px;
+    margin-bottom:18px;
+    box-shadow:0 1px 2px rgba(18,35,59,.04);
+  }
+  .card h2{
+    font-family:'Fraunces',serif;
+    font-size:20px;
+    font-weight:600;
+    margin:0 0 4px;
+    color:var(--navy);
+    display:flex;align-items:baseline;gap:10px;
+  }
+  .card h2 .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    letter-spacing:.12em;
+    color:var(--gold);
+    font-weight:700;
+    text-transform:uppercase;
+  }
+  .card p.hint{color:var(--muted);font-size:13.5px;margin:0 0 18px;}
+  label{display:block;font-size:13.5px;font-weight:600;margin:14px 0 6px;color:#333;}
+  label .opt{font-weight:400;color:var(--muted);font-size:12px;}
+  input[type=text], input[type=tel], input[type=email], input[type=date], input[type=url], select, textarea{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-size:14.5px;
+    font-family:'Inter',sans-serif;
+    background:#fbfbfa;
+    color:var(--ink);
+  }
+  textarea{resize:vertical;min-height:70px;}
+  input:focus, select:focus, textarea:focus{
+    outline:2px solid var(--navy-2);
+    outline-offset:1px;
+    background:#fff;
+  }
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;}
+  @media(max-width:520px){.grid2{grid-template-columns:1fr;}}
+  .choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+  .choice{
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:8px 14px;
+    font-size:13.5px;
+    cursor:pointer;
+    user-select:none;
+    background:#fbfbfa;
+    transition:.15s;
+  }
+  .choice input{position:absolute;opacity:0;width:0;height:0;}
+  .choice:has(input:checked){
+    background:var(--navy);
+    border-color:var(--navy);
+    color:#fff;
+  }
+  .choice:has(input:focus-visible){outline:2px solid var(--gold);outline-offset:2px;}
+  .choice.locked{opacity:.5;cursor:not-allowed;}
+  .choice.locked:has(input:checked){background:#fbfbfa;border-color:var(--line);color:inherit;}
+  .pkg-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px;}
+  @media(max-width:520px){.pkg-row{grid-template-columns:1fr;}}
+  .pkg{
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    padding:14px 12px;
+    text-align:center;
+    cursor:pointer;
+    background:#fbfbfa;
+  }
+  .pkg input{position:absolute;opacity:0;}
+  .pkg:has(input:checked){border-color:var(--gold);background:#fff8ea;box-shadow:0 0 0 1px var(--gold) inset;}
+  .pkg b{display:block;font-family:'Fraunces',serif;font-size:16px;color:var(--navy);}
+  .pkg span{font-size:11.5px;color:var(--muted);}
+  .pkg em.price{display:block;font-style:normal;font-size:11px;color:var(--gold);font-weight:600;margin-top:2px;}
+  .actions{display:flex;justify-content:space-between;gap:12px;margin-top:8px;}
+  button{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    border-radius:8px;
+    padding:12px 20px;
+    border:none;
+    cursor:pointer;
+  }
+  .btn-primary{background:var(--navy);color:#fff;}
+  .btn-primary:hover{background:var(--navy-2);}
+  .btn-ghost{background:transparent;color:var(--navy);border:1px solid var(--line);}
+  .btn-secondary{background:var(--gold);color:#fff;width:100%;margin-top:10px;}
+  .btn-secondary:hover{background:#b3811f;}
+  .step{display:none;}
+  .step.active{display:block;}
+  footer.note{
+    text-align:center;color:var(--muted);font-size:12px;margin-top:24px;
+  }
+  .review dt{font-weight:600;color:var(--navy);font-size:12.5px;margin-top:10px;}
+  .review dd{margin:2px 0 0;font-size:14px;color:#222;word-break:break-word;}
+  .review h4{margin:18px 0 6px;font-family:'Fraunces',serif;color:var(--gold);font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--line);padding-top:14px;}
+  .review h4:first-child{border-top:none;padding-top:0;margin-top:0;}
+  .badge-ok{display:inline-flex;align-items:center;gap:6px;color:var(--ok);font-size:13px;font-weight:600;margin-bottom:10px;}
+
+  /* ==== Tambahan: Package Scope Protection, Upload, Add-on ==== */
+  .pkg-summary{
+    border:1.5px solid var(--gold);
+    border-radius:12px;
+    padding:16px 16px 14px;
+    background:#fff8ea;
+  }
+  .pkg-summary h3{margin:0 0 2px;font-family:'Fraunces',serif;color:var(--navy);font-size:18px;}
+  .pkg-summary .price-line{font-size:12.5px;color:var(--muted);margin-bottom:2px;}
+  .pkg-summary .cap-line{font-size:12.5px;color:var(--navy-2);font-weight:600;margin:6px 0 10px;}
+  .feat-list{list-style:none;padding:0;margin:0;display:grid;gap:5px;}
+  .feat-list li{font-size:13px;line-height:1.35;}
+  .feat-list li.ok{color:var(--ok);}
+  .feat-list li.locked{color:var(--danger);opacity:.9;}
+  .feat-list li .sub{display:block;font-size:11px;color:var(--muted);margin-left:18px;}
+  .feat-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px;}
+  @media(max-width:520px){.feat-cols{grid-template-columns:1fr;}}
+  .feat-cols h5{margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+  .upload-box{border:1px dashed var(--line);border-radius:10px;padding:14px;margin-top:8px;background:#fbfbfa;}
+  .upload-box input[type=file]{width:100%;font-size:13px;font-family:'Inter',sans-serif;}
+  .file-list{list-style:none;padding:0;margin:8px 0 0;font-size:12.5px;color:var(--muted);}
+  .file-list li{padding:2px 0;}
+  .alert-box{background:#fff3f2;border:1px solid #e8a7a0;color:#8a2f26;padding:10px 12px;border-radius:8px;font-size:13px;margin-top:10px;display:none;}
+  .alert-box.show{display:block;}
+  .info-box{background:#eef3f9;border:1px solid #c7d5e5;color:#1f3a5f;padding:12px 14px;border-radius:8px;font-size:12.5px;margin-top:12px;}
+  .info-box.warn{background:#fff8ea;border-color:var(--gold-light);color:#6b4c12;}
+  .addon-box{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);}
+  .addon-box .addon-note{font-size:12px;color:var(--muted);margin-top:6px;}
+  .reuse-note{font-size:12px;color:var(--muted);background:#f2f4f7;border-radius:6px;padding:8px 10px;margin-top:6px;}
+  .req{color:var(--danger);}
+  .pkg-hint{font-size:12.5px;color:var(--navy-2);font-weight:600;margin:2px 0 10px;padding:6px 10px;background:#eef3f9;border-radius:6px;display:inline-block;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="brand">ARKDEV · Bahtera Digital</div>
+    <h1>Ceritakan kebutuhan website kalian</h1>
+    <p class="sub">Isi formulir ini, jawabanmu akan langsung tersusun rapi dan dikirim ke tim ARKDEV lewat WhatsApp.</p>
+    <div class="progress" id="progressBar">
+      <i><em id="p1"></em></i><i><em id="p2"></em></i><i><em id="p3"></em></i><i><em id="p4"></em></i>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<form id="arkdevForm">
+
+  <!-- STEP 1 — Data Pemohon (Form 1A) -->
+  <div class="step active" data-step="1">
+    <div class="card">
+      <h2><span class="eyebrow">01</span> Data Pemohon</h2>
+      <p class="hint">Siapa yang mengajukan, dan bagaimana kami bisa menghubungi kembali.</p>
+
+      <label for="nama_instansi">Nama instansi / usaha <span class="req">*</span></label>
+      <input type="text" id="nama_instansi" placeholder="mis. SMA Al-Hikmah / Toko Berkah Snack">
+
+      <label>Jenis instansi <span class="req">*</span></label>
+      <div class="choices" data-group="jenis_instansi">
+        <label class="choice"><input type="radio" name="jenis_instansi" value="Sekolah/Pesantren"> Sekolah/Pesantren</label>
+        <label class="choice"><input type="radio" name="jenis_instansi" value="UMKM/Toko"> UMKM/Toko</label>
+        <label class="choice"><input type="radio" name="jenis_instansi" value="Organisasi/Komunitas"> Organisasi/Komunitas</label>
+        <label class="choice"><input type="radio" name="jenis_instansi" value="Perorangan/Lainnya"> Perorangan/Lainnya</label>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <label for="cp_nama">Nama penanggung jawab (CP) <span class="req">*</span></label>
+          <input type="text" id="cp_nama" placeholder="Nama lengkap">
+        </div>
+        <div>
+          <label for="cp_wa">No. WhatsApp <span class="req">*</span></label>
+          <input type="tel" id="cp_wa" placeholder="08xxxxxxxxxx">
+        </div>
+      </div>
+      <label for="alamat">Alamat / lokasi <span class="opt">(opsional)</span></label>
+      <input type="text" id="alamat" placeholder="Kota / kecamatan">
+    </div>
+
+    <div class="alert-box" id="step1Alert"></div>
+    <div class="actions"><span></span><button type="button" class="btn-primary" onclick="attemptGoStep(1,2)">Lanjut →</button></div>
+  </div>
+
+  <!-- STEP 2 — Kebutuhan Website + Paket (Form 1B) -->
+  <div class="step" data-step="2">
+    <div class="card">
+      <h2><span class="eyebrow">02</span> Kebutuhan Website</h2>
+      <p class="hint">Gambaran besar dulu — detail halaman kita bahas di langkah berikutnya.</p>
+
+      <label for="nama_web">Nama website yang diinginkan <span class="req">*</span></label>
+      <input type="text" id="nama_web" placeholder="mis. Website Resmi SMA Al-Hikmah">
+
+      <label>Jenis website <span class="req">*</span></label>
+      <div class="choices" data-group="jenis_web">
+        <label class="choice"><input type="radio" name="jenis_web" value="Profil Sekolah"> Profil Sekolah</label>
+        <label class="choice"><input type="radio" name="jenis_web" value="Profil UMKM/Company Profile"> Profil UMKM</label>
+        <label class="choice"><input type="radio" name="jenis_web" value="Katalog/Toko Online"> Katalog/Toko Online</label>
+        <label class="choice"><input type="radio" name="jenis_web" value="Portofolio"> Portofolio</label>
+        <label class="choice"><input type="radio" name="jenis_web" value="Lainnya"> Lainnya</label>
+      </div>
+
+      <label for="tujuan">Tujuan utama website <span class="req">*</span></label>
+      <textarea id="tujuan" placeholder="mis. Supaya calon wali murid bisa lihat profil sekolah &amp; PPDB online"></textarea>
+    </div>
+
+    <div class="card">
+      <h2><span class="eyebrow">03</span> Pilih Paket <span class="req">*</span></h2>
+      <p class="hint">Belum yakin juga tidak apa-apa, tim ARKDEV akan bantu rekomendasikan. Paket yang dipilih akan menjadi batas fitur pada langkah berikutnya.</p>
+      <div class="pkg-row" id="pkgRow">
+        <label class="pkg"><input type="radio" name="paket" value="bronze"><b>Bronze</b><span>Landing sederhana</span><em class="price">Rp800rb/thn</em></label>
+        <label class="pkg"><input type="radio" name="paket" value="silver"><b>Silver</b><span>Multi-halaman</span><em class="price">Rp1,2jt/thn</em></label>
+        <label class="pkg"><input type="radio" name="paket" value="gold"><b>Gold</b><span>CMS + Login</span><em class="price">Rp1,5jt/thn</em></label>
+      </div>
+      <div class="choices" style="margin-top:10px;">
+        <label class="choice"><input type="radio" name="paket" value="undecided"> Belum yakin, perlu konsultasi</label>
+      </div>
+      <div class="info-box">Domain dan hosting perlu diperpanjang setiap tahun sesuai ketentuan paket. Jika tidak diperpanjang, website dapat menjadi tidak aktif/offline.</div>
+    </div>
+
+    <div class="alert-box" id="step2Alert"></div>
+    <div class="actions">
+      <button type="button" class="btn-ghost" onclick="goStep(1)">← Kembali</button>
+      <button type="button" class="btn-primary" onclick="attemptGoStep(2,3)">Lanjut →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 — Briefing detail (Form 2) -->
+  <div class="step" data-step="3">
+
+    <!-- Paket Anda -->
+    <div class="card">
+      <h2><span class="eyebrow">04</span> Paket Anda</h2>
+      <p class="hint">Fitur di bawah ini otomatis mengikuti paket yang kamu pilih di langkah sebelumnya.</p>
+      <div id="packageCardBox"></div>
+    </div>
+
+    <!-- Struktur Website -->
+    <div class="card">
+      <h2><span class="eyebrow">05</span> Struktur &amp; Halaman Website</h2>
+      <p class="hint">Pilih halaman yang dibutuhkan. Jumlah halaman dibatasi sesuai paket.</p>
+      <div id="halamanPkgHint"></div>
+
+      <label>Halaman yang dibutuhkan <span class="opt">(pilih semua yang relevan)</span> <span class="req">*</span></label>
+      <div class="choices" id="halamanGroup">
+        <label class="choice"><input type="checkbox" value="Beranda"> Beranda</label>
+        <label class="choice"><input type="checkbox" value="Tentang Kami/Profil"> Tentang Kami</label>
+        <label class="choice"><input type="checkbox" value="Program/Layanan/Produk"> Program/Produk</label>
+        <label class="choice"><input type="checkbox" value="Galeri/Portofolio"> Galeri</label>
+        <label class="choice"><input type="checkbox" value="Berita/Artikel"> Berita/Artikel</label>
+        <label class="choice"><input type="checkbox" value="Kontak"> Kontak</label>
+        <label class="choice"><input type="checkbox" value="Pendaftaran/Formulir"> Pendaftaran</label>
+        <label class="choice"><input type="checkbox" value="Katalog/Produk"> Katalog/Produk</label>
+        <label class="choice"><input type="checkbox" value="FAQ"> FAQ</label>
+        <label class="choice" id="loginPageChoice"><input type="checkbox" id="loginPageInput" value="Login/Member"> Login/Member 🔒</label>
+      </div>
+      <div class="alert-box" id="halamanAlert"></div>
+    </div>
+
+    <!-- Brand -->
+    <div class="card">
+      <h2><span class="eyebrow">06</span> Informasi Brand &amp; Identitas</h2>
+      <p class="hint">Supaya tim desain bisa langsung membangun identitas visual website.</p>
+
+      <div class="grid2">
+        <div>
+          <label for="nama_brand">Nama Brand <span class="req">*</span></label>
+          <input type="text" id="nama_brand" placeholder="mis. Berkah Snack">
+        </div>
+        <div>
+          <label for="tagline_brand">Tagline / Slogan <span class="opt">(opsional)</span></label>
+          <input type="text" id="tagline_brand" placeholder="mis. Renyah Setiap Gigitan">
+        </div>
+      </div>
+      <label for="email_brand">Email resmi brand <span class="opt">(opsional)</span></label>
+      <input type="email" id="email_brand" placeholder="info@namabrand.com">
+
+      <label for="deskripsi_brand">Deskripsi singkat brand <span class="opt">(1–3 kalimat)</span></label>
+      <textarea id="deskripsi_brand" placeholder="Ceritakan brand kamu dalam 1–3 kalimat singkat"></textarea>
+
+      <div class="grid2">
+        <div>
+          <label for="warna">Warna utama brand <span class="opt">(jika ada)</span></label>
+          <input type="text" id="warna" placeholder="mis. hijau &amp; emas">
+        </div>
+        <div>
+          <label for="referensi">Referensi website favorit</label>
+          <input type="text" id="referensi" placeholder="link/nama website">
+        </div>
+      </div>
+    </div>
+
+    <!-- Media Sosial -->
+    <div class="card">
+      <h2><span class="eyebrow">07</span> Media Sosial &amp; Kanal Online</h2>
+      <p class="hint">Semua field opsional — isi yang kamu punya saja.</p>
+      <div class="grid2">
+        <div>
+          <label for="sosial_ig">Instagram</label>
+          <input type="text" id="sosial_ig" placeholder="@namabrand / instagram.com/namabrand">
+        </div>
+        <div>
+          <label for="sosial_tiktok">TikTok</label>
+          <input type="text" id="sosial_tiktok" placeholder="@namabrand / tiktok.com/@namabrand">
+        </div>
+      </div>
+      <div class="grid2">
+        <div>
+          <label for="sosial_fb">Facebook</label>
+          <input type="text" id="sosial_fb" placeholder="facebook.com/namabrand">
+        </div>
+        <div>
+          <label for="sosial_yt">YouTube</label>
+          <input type="text" id="sosial_yt" placeholder="youtube.com/@namabrand">
+        </div>
+      </div>
+      <div class="grid2">
+        <div>
+          <label for="sosial_linkedin">LinkedIn</label>
+          <input type="text" id="sosial_linkedin" placeholder="linkedin.com/company/namabrand">
+        </div>
+        <div>
+          <label for="sosial_web_lama">Website saat ini <span class="opt">(jika ada)</span></label>
+          <input type="text" id="sosial_web_lama" placeholder="https://namabrand.com">
+        </div>
+      </div>
+    </div>
+
+    <!-- Kontak Website -->
+    <div class="card">
+      <h2><span class="eyebrow">08</span> Kontak yang Akan Ditampilkan di Website</h2>
+      <p class="hint">Data ini akan tampil publik di halaman kontak website.</p>
+      <div class="reuse-note">No. WhatsApp &amp; Alamat mengikuti data yang sudah diisi di Step 1 (Data Pemohon), tidak perlu diisi ulang.</div>
+      <div class="grid2">
+        <div>
+          <label for="kontak_telp">Nomor telepon <span class="opt">(opsional)</span></label>
+          <input type="tel" id="kontak_telp" placeholder="021xxxxxxx">
+        </div>
+        <div>
+          <label for="kontak_email">Email <span class="opt">(opsional)</span></label>
+          <input type="email" id="kontak_email" placeholder="kontak@namabrand.com">
+        </div>
+      </div>
+      <label for="kontak_maps">Link Google Maps <span class="opt">(opsional)</span></label>
+      <input type="url" id="kontak_maps" placeholder="https://maps.google.com/...">
+      <label for="kontak_jam">Jam operasional <span class="opt">(opsional)</span></label>
+      <input type="text" id="kontak_jam" placeholder="mis. Senin–Sabtu, 08.00–17.00">
+    </div>
+
+    <!-- Materi & Upload -->
+    <div class="card">
+      <h2><span class="eyebrow">09</span> Materi &amp; Upload File</h2>
+      <p class="hint">Kirimkan materi yang sudah kamu punya. File tetap tersimpan meski kamu berpindah langkah.</p>
+
+      <label>Materi yang sudah tersedia</label>
+      <div class="choices" id="materiGroup">
+        <label class="choice"><input type="checkbox" value="Foto/Dokumentasi"> Foto/Dokumentasi</label>
+        <label class="choice"><input type="checkbox" value="Logo"> Logo</label>
+        <label class="choice"><input type="checkbox" value="Video"> Video</label>
+        <label class="choice"><input type="checkbox" value="Profil Instansi/Company Profile PDF"> Profil Instansi (PDF)</label>
+        <label class="choice"><input type="checkbox" value="Data Produk/Program"> Data Produk/Program</label>
+        <label class="choice"><input type="checkbox" value="Belum ada — perlu dibantu ARKDEV"> Belum ada, perlu dibantu</label>
+      </div>
+
+      <label>Upload Logo <span class="opt">(1 file — PNG/JPG/JPEG/SVG/WEBP)</span></label>
+      <div class="upload-box">
+        <input type="file" id="upload_logo" accept=".png,.jpg,.jpeg,.svg,.webp,image/png,image/jpeg,image/svg+xml,image/webp">
+        <ul class="file-list" id="logoFileList"></ul>
+      </div>
+
+      <label>Upload Foto <span class="opt">(boleh lebih dari satu — PNG/JPG/JPEG/WEBP)</span></label>
+      <div class="upload-box">
+        <input type="file" id="upload_foto" multiple accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp">
+        <ul class="file-list" id="fotoFileList"></ul>
+        <div class="alert-box" id="fotoAlert"></div>
+      </div>
+
+      <label>Upload Video <span class="opt">(boleh lebih dari satu — MP4/MOV/WEBM)</span></label>
+      <div class="upload-box">
+        <input type="file" id="upload_video" multiple accept=".mp4,.mov,.webm,video/mp4,video/quicktime,video/webm">
+        <ul class="file-list" id="videoFileList"></ul>
+      </div>
+
+      <label>Upload Profil Instansi / Company Profile <span class="opt">(PDF)</span></label>
+      <div class="upload-box">
+        <input type="file" id="upload_pdf" accept=".pdf,application/pdf">
+        <ul class="file-list" id="pdfFileList"></ul>
+      </div>
+
+      <button type="button" class="btn-secondary" onclick="shareFilesToWhatsApp()">📎 Bagikan File ke WhatsApp</button>
+      <p class="addon-note" style="margin-top:6px;">Tombol ini <strong>khusus mengirim file</strong> (logo/foto/video/PDF) yang sudah diupload di atas. Kirim data teks formulir tetap lewat tombol <strong>"Kirim via WhatsApp"</strong> di langkah terakhir.</p>
+    </div>
+
+    <!-- Fitur di Luar Paket -->
+    <div class="card">
+      <h2><span class="eyebrow">10</span> Fitur di Luar Paket</h2>
+      <div class="choices">
+        <label class="choice"><input type="checkbox" id="addon_needed"> Saya membutuhkan fitur tambahan</label>
+      </div>
+      <div id="addonBox" style="display:none;">
+        <label for="addon_desc">Jelaskan fitur tambahan yang dibutuhkan</label>
+        <textarea id="addon_desc" placeholder="mis. Payment Gateway, Booking System, Marketplace, dsb."></textarea>
+      </div>
+      <p class="addon-note">Fitur di luar paket tidak otomatis termasuk dalam harga dan akan dihitung berdasarkan tingkat kerumitan setelah dikonfirmasi ARKDEV.</p>
+    </div>
+
+    <!-- Detail Tambahan -->
+    <div class="card">
+      <h2><span class="eyebrow">11</span> Detail Tambahan</h2>
+      <label for="deadline">Deadline yang diinginkan</label>
+      <input type="date" id="deadline">
+
+      <label for="catatan">Catatan tambahan <span class="opt">(opsional)</span></label>
+      <textarea id="catatan" placeholder="Apa pun yang perlu tim ARKDEV tahu sebelum mulai"></textarea>
+    </div>
+
+    <div class="alert-box" id="scopeAlert"></div>
+
+    <div class="actions">
+      <button type="button" class="btn-ghost" onclick="goStep(2)">← Kembali</button>
+      <button type="button" class="btn-primary" onclick="handleReviewClick()">Tinjau &amp; Kirim →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 — Review & Send -->
+  <div class="step" data-step="4">
+    <div class="card">
+      <div class="badge-ok">✓ Siap dikirim</div>
+      <h2 style="margin-bottom:14px;">Tinjau jawabanmu</h2>
+      <dl class="review" id="reviewBox"></dl>
+      <div class="info-box warn" id="fileReminderBox" style="display:none;"></div>
+      <div class="info-box warn">
+        ⚠️ <strong>Scope Pekerjaan</strong><br>
+        Formulir ini menggunakan paket yang dipilih sebagai batas fitur pengerjaan. Permintaan fitur di luar paket tidak otomatis termasuk dalam harga dan akan dikonfirmasi terlebih dahulu oleh ARKDEV sebelum dikerjakan.
+      </div>
+      <div class="info-box">
+        Domain dan hosting perlu diperpanjang setiap tahun sesuai ketentuan paket. Jika tidak diperpanjang, website dapat menjadi tidak aktif/offline.
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn-ghost" onclick="goStep(3)">← Kembali &amp; ubah</button>
+      <button type="button" class="btn-primary" onclick="sendToWhatsApp()">Kirim via WhatsApp</button>
+    </div>
+  </div>
+
+</form>
+<footer class="note">Klik "Kirim via WhatsApp" mengirim <strong>data teks formulir</strong>. Jika ada file (logo/foto/video/PDF) yang belum dibagikan, gunakan tombol "Bagikan File ke WhatsApp" di Step 3 sebelum ini — dua tombol tersebut mengirim hal yang berbeda.</footer>
+</div>
+
+<script>
+// ==== EDIT INI: nomor WhatsApp tujuan (format 62xxxxxxxxxx tanpa + atau 0 di depan) ====
+const ARKDEV_WA_NUMBER = "6282129762711";
+// =======================================================================================
+
+/* ================= BAGIAN A — SISTEM PAKET (single source of truth) ================= */
+const PACKAGE_RULES = {
+    bronze: {
+        name: "Bronze",
+        price: 800000,
+        renewal: 500000,
+        maxPages: 1,
+        maxPhotos: 10,
+        features: {
+            socialMedia: true, whatsapp: true, gallery: true, dashboard: true,
+            domain: false, googleMaps: false, googleBusiness: false, seo: false, analytics: false,
+            cms: false, database: false, loginRegister: false,
+            videoGuide: false, bugFixWarranty: false
+        },
+        revisions: "Maksimal 2x revisi minor"
+    },
+    silver: {
+        name: "Silver",
+        price: 1200000,
+        renewal: 600000,
+        maxPages: 3,
+        maxPhotos: null,
+        features: {
+            socialMedia: true, whatsapp: true, gallery: true, dashboard: true,
+            domain: true, googleMaps: true, googleBusiness: true, seo: true, analytics: true,
+            cms: false, database: false, loginRegister: false,
+            videoGuide: false, bugFixWarranty: false
+        },
+        revisions: "Maksimal 3x revisi"
+    },
+    gold: {
+        name: "Gold",
+        price: 1500000,
+        renewal: 700000,
+        maxPages: 5,
+        maxPhotos: null,
+        features: {
+            socialMedia: true, whatsapp: true, gallery: true, dashboard: true,
+            domain: true, googleMaps: true, googleBusiness: false, seo: true, analytics: true,
+            cms: true, database: true, loginRegister: true,
+            videoGuide: true, bugFixWarranty: true
+        },
+        revisions: "Maksimal 4x revisi"
+    }
+};
+const TIER_ORDER = ['bronze','silver','gold'];
+const FEATURE_LABELS = {
+    socialMedia: "Integrasi Media Sosial",
+    whatsapp: "Tombol WhatsApp / Click to Chat",
+    gallery: "Galeri Foto Produk/Portofolio",
+    dashboard: "Akses Dashboard Website",
+    domain: "Domain .com Gratis",
+    googleMaps: "Google Maps",
+    googleBusiness: "Google My Business",
+    seo: "SEO Optimization",
+    analytics: "Traffic Analytics",
+    cms: "CMS Konten",
+    database: "Database",
+    loginRegister: "Login/Register",
+    videoGuide: "Video Modul/Panduan Penggunaan",
+    bugFixWarranty: "Garansi Bug Fixing 1 Bulan"
+};
+
+let selectedPackage = null; // 'bronze' | 'silver' | 'gold' | 'undecided'
+
+function fmtRupiah(n){
+  if(n === null || n === undefined) return '-';
+  return 'Rp' + n.toLocaleString('id-ID');
+}
+
+function availableTiersLabel(featureKey){
+  const tiers = TIER_ORDER.filter(t => PACKAGE_RULES[t].features[featureKey]);
+  if(tiers.length === 0) return 'Belum tersedia pada paket manapun';
+  const names = tiers.map(t => PACKAGE_RULES[t].name);
+  if(names.length === 1) return `Tersedia pada Paket ${names[0]}`;
+  return `Tersedia pada Paket ${names.slice(0,-1).join(', ')} & ${names[names.length-1]}`;
+}
+
+/* ================= BAGIAN C/D/E — Package Card & Restrictions ================= */
+function updatePackageRestrictions(){
+  renderPackageCard();
+  applyHalamanRestrictions();
+  applyFotoRestrictions();
+}
+
+function renderPackageCard(){
+  const box = document.getElementById('packageCardBox');
+  if(!selectedPackage){
+    box.innerHTML = '<div class="info-box">Silakan pilih paket terlebih dahulu di Step 2.</div>';
+    return;
+  }
+  if(selectedPackage === 'undecided'){
+    box.innerHTML = '<div class="info-box warn">Kamu memilih "Belum yakin — perlu konsultasi". Fitur akan didiskusikan &amp; dikonfirmasi bersama tim ARKDEV sebelum pengerjaan dimulai.</div>';
+    return;
+  }
+  const r = PACKAGE_RULES[selectedPackage];
+  const included = [];
+  const locked = [];
+  Object.keys(r.features).forEach(key=>{
+    const label = FEATURE_LABELS[key] || key;
+    if(r.features[key]){
+      let extra = '';
+      if(key === 'gallery' && r.maxPhotos){ extra = ` (maks. ${r.maxPhotos} foto)`; }
+      included.push(`<li class="ok">✓ ${label}${extra}</li>`);
+    } else {
+      locked.push(`<li class="locked">🔒 ${label}<span class="sub">${availableTiersLabel(key)}</span></li>`);
+    }
+  });
+  box.innerHTML = `
+    <div class="pkg-summary">
+      <h3>${r.name.toUpperCase()}</h3>
+      <div class="price-line">${fmtRupiah(r.price)} / Tahun Pertama · Perpanjangan ${fmtRupiah(r.renewal)}/Tahun</div>
+      <div class="cap-line">Maksimal ${r.maxPages} halaman · ${r.revisions}</div>
+      <div class="feat-cols">
+        <div>
+          <h5>Termasuk Paket</h5>
+          <ul class="feat-list">${included.join('')}</ul>
+        </div>
+        <div>
+          <h5>Tidak Termasuk</h5>
+          <ul class="feat-list">${locked.length ? locked.join('') : '<li class="ok">✓ Semua fitur termasuk</li>'}</ul>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* Halaman: batasi jumlah checkbox sesuai maxPages, kunci Login/Member kecuali Gold */
+function applyHalamanRestrictions(){
+  const loginChoice = document.getElementById('loginPageChoice');
+  const loginInput = document.getElementById('loginPageInput');
+  const hintBox = document.getElementById('halamanPkgHint');
+  const rules = (selectedPackage && selectedPackage !== 'undecided') ? PACKAGE_RULES[selectedPackage] : null;
+  const loginAllowed = selectedPackage === 'undecided' || (rules && rules.features.loginRegister);
+
+  if(loginAllowed){
+    loginChoice.classList.remove('locked');
+    loginInput.disabled = false;
+    loginChoice.lastChild.textContent = ' Login/Member';
+  } else {
+    loginChoice.classList.add('locked');
+    loginInput.disabled = true;
+    loginInput.checked = false;
+    loginChoice.lastChild.textContent = ' Login/Member 🔒 (khusus Gold)';
+  }
+
+  if(!selectedPackage){
+    hintBox.innerHTML = '<div class="pkg-hint">⚠️ Paket belum dipilih — silakan kembali ke Step 2.</div>';
+  } else if(selectedPackage === 'undecided'){
+    hintBox.innerHTML = '<div class="pkg-hint">Belum yakin paket — jumlah halaman akan didiskusikan bersama tim ARKDEV.</div>';
+  } else {
+    hintBox.innerHTML = `<div class="pkg-hint">Paket saat ini: ${rules.name} — maksimal ${rules.maxPages} halaman${rules.features.loginRegister ? ', Login/Member tersedia' : ', Login/Member terkunci'}.</div>`;
+  }
+
+  enforcePageLimit();
+}
+
+function enforcePageLimit(){
+  const alertBox = document.getElementById('halamanAlert');
+  const maxPages = (selectedPackage && selectedPackage !== 'undecided') ? PACKAGE_RULES[selectedPackage].maxPages : null;
+  const checkboxes = Array.from(document.querySelectorAll('#halamanGroup input[type=checkbox]:not(:disabled)'));
+  const checked = checkboxes.filter(c=>c.checked);
+  if(maxPages !== null && checked.length > maxPages){
+    // uncheck the excess (paling akhir dicentang tetap dibiarkan, sisanya dilepas dari belakang)
+    for(let i = checked.length - 1; i >= maxPages; i--){
+      checked[i].checked = false;
+    }
+    alertBox.textContent = `Paket ${PACKAGE_RULES[selectedPackage].name} hanya mencakup maksimal ${maxPages} halaman. Halaman tambahan masuk kategori Add-on.`;
+    alertBox.classList.add('show');
+  } else {
+    alertBox.classList.remove('show');
+    alertBox.textContent = '';
+  }
+}
+
+/* ================= BAGIAN U — Batas Foto Bronze ================= */
+function applyFotoRestrictions(){
+  const input = document.getElementById('upload_foto');
+  validateFotoCount(input.files);
+}
+
+function validateFotoCount(files){
+  const alertBox = document.getElementById('fotoAlert');
+  const maxPhotos = (selectedPackage && selectedPackage !== 'undecided') ? PACKAGE_RULES[selectedPackage].maxPhotos : null;
+  if(maxPhotos && files.length > maxPhotos){
+    alertBox.textContent = `Paket ${PACKAGE_RULES[selectedPackage].name} hanya mencakup maksimal ${maxPhotos} foto. Foto tambahan dapat masuk kategori Add-on.`;
+    alertBox.classList.add('show');
+    // trim file list ke batas maksimal menggunakan DataTransfer
+    try{
+      const dt = new DataTransfer();
+      Array.from(files).slice(0, maxPhotos).forEach(f=>dt.items.add(f));
+      document.getElementById('upload_foto').files = dt.files;
+      renderFileList('fotoFileList', dt.files);
+      return;
+    }catch(e){ /* browser lama tanpa DataTransfer, biarkan apa adanya */ }
+  } else {
+    alertBox.classList.remove('show');
+    alertBox.textContent = '';
+  }
+  renderFileList('fotoFileList', files);
+}
+
+/* ================= Upload helpers ================= */
+function fmtSize(bytes){
+  if(bytes < 1024*1024) return (bytes/1024).toFixed(0) + ' KB';
+  return (bytes/(1024*1024)).toFixed(1) + ' MB';
+}
+function renderFileList(listId, files){
+  const ul = document.getElementById(listId);
+  ul.innerHTML = '';
+  Array.from(files).forEach(f=>{
+    const li = document.createElement('li');
+    li.textContent = `• ${f.name} (${fmtSize(f.size)})`;
+    ul.appendChild(li);
+  });
+}
+
+async function shareFilesToWhatsApp(){
+  const allFiles = [
+    ...Array.from(document.getElementById('upload_logo').files),
+    ...Array.from(document.getElementById('upload_foto').files),
+    ...Array.from(document.getElementById('upload_video').files),
+    ...Array.from(document.getElementById('upload_pdf').files),
+  ];
+  if(allFiles.length === 0){
+    alert('Belum ada file yang dipilih untuk dibagikan.');
+    return;
+  }
+
+  // Web Share API tidak butuh nomor tujuan — user memilih sendiri kontak/aplikasi dari menu share.
+  // Tapi ia hanya berjalan di secure context (HTTPS) dan sebagian besar hanya didukung di HP.
+  if(!window.isSecureContext){
+    alert('Fitur "Bagikan File" hanya bisa berjalan di halaman HTTPS (misalnya setelah di-upload ke GitHub Pages), bukan saat file dibuka langsung dari komputer (file://).\n\nWhatsApp akan dibuka dengan data teks — mohon lampirkan file secara manual.');
+    sendToWhatsApp();
+    return;
+  }
+
+  if(navigator.canShare && navigator.canShare({ files: allFiles })){
+    try{
+      await navigator.share({
+        title: "Materi Website ARKDEV",
+        text: "Materi/berkas untuk pengajuan website ARKDEV",
+        files: allFiles
+      });
+    }catch(err){
+      // pengguna membatalkan share, tidak perlu tindakan lain
+    }
+  } else {
+    alert('Perangkat/browser ini belum mendukung berbagi file langsung (biasanya hanya tersedia di HP — Chrome Android / Safari iOS).\n\nWhatsApp akan dibuka dengan data teks — mohon lampirkan file secara manual dari galeri/file manager kamu.');
+    sendToWhatsApp();
+  }
+}
+
+/* ================= Add-on toggle ================= */
+function toggleAddonBox(){
+  const checked = document.getElementById('addon_needed').checked;
+  document.getElementById('addonBox').style.display = checked ? 'block' : 'none';
+}
+
+/* ================= Navigasi Step ================= */
+const totalSteps = 4;
+function goStep(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.querySelector(`.step[data-step="${n}"]`).classList.add('active');
+  for(let i=1;i<=totalSteps;i++){
+    document.getElementById('p'+i).style.width = i<=n ? '100%' : '0%';
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ================= Validasi Wajib Isi (per step) ================= */
+const STEP_REQUIRED_FIELDS = {
+  1: [
+    { id:'nama_instansi', label:'Nama instansi/usaha' },
+    { type:'radio', name:'jenis_instansi', label:'Jenis instansi' },
+    { id:'cp_nama', label:'Nama penanggung jawab (CP)' },
+    { id:'cp_wa', label:'No. WhatsApp' },
+  ],
+  2: [
+    { id:'nama_web', label:'Nama website' },
+    { type:'radio', name:'jenis_web', label:'Jenis website' },
+    { id:'tujuan', label:'Tujuan utama website' },
+    { type:'radio', name:'paket', label:'Paket' },
+  ],
+  3: [
+    { type:'checkboxGroup', groupId:'halamanGroup', label:'Halaman yang dibutuhkan (minimal 1)' },
+    { id:'nama_brand', label:'Nama Brand' },
+  ],
+};
+
+function findMissingFields(stepNum){
+  const fields = STEP_REQUIRED_FIELDS[stepNum] || [];
+  const missing = [];
+  fields.forEach(f=>{
+    if(f.type === 'radio'){
+      if(!document.querySelector(`input[name="${f.name}"]:checked`)) missing.push(f.label);
+    } else if(f.type === 'checkboxGroup'){
+      if(document.querySelectorAll('#'+f.groupId+' input:checked').length === 0) missing.push(f.label);
+    } else {
+      const el = document.getElementById(f.id);
+      if(!el || !el.value.trim()) missing.push(f.label);
+    }
+  });
+  return missing;
+}
+
+function validateStepFields(stepNum){
+  const missing = findMissingFields(stepNum);
+  if(missing.length){
+    return { ok:false, message: 'Mohon lengkapi terlebih dahulu (belum diisi): ' + missing.join(', ') + '.' };
+  }
+  return { ok:true, message:'' };
+}
+
+function safeScrollIntoView(el){
+  if(el && typeof el.scrollIntoView === 'function'){
+    try{ el.scrollIntoView({behavior:'smooth', block:'center'}); }catch(e){ /* ignore */ }
+  }
+}
+
+function attemptGoStep(current, next){
+  const result = validateStepFields(current);
+  const alertBox = document.getElementById('step'+current+'Alert');
+  if(!result.ok){
+    if(alertBox){
+      alertBox.textContent = result.message;
+      alertBox.classList.add('show');
+      safeScrollIntoView(alertBox);
+    }
+    return;
+  }
+  if(alertBox){ alertBox.classList.remove('show'); }
+  goStep(next);
+}
+
+function handleReviewClick(){
+  const scopeAlert = document.getElementById('scopeAlert');
+
+  const fieldCheck = validateStepFields(3);
+  if(!fieldCheck.ok){
+    scopeAlert.textContent = fieldCheck.message;
+    scopeAlert.classList.add('show');
+    safeScrollIntoView(scopeAlert);
+    return;
+  }
+
+  const result = validatePackageScope();
+  if(!result.ok){
+    scopeAlert.textContent = result.message;
+    scopeAlert.classList.add('show');
+    safeScrollIntoView(scopeAlert);
+    return;
+  }
+  scopeAlert.classList.remove('show');
+  renderReview();
+}
+
+/* ================= BAGIAN AB — Validasi Scope ================= */
+function validatePackageScope(){
+  if(!selectedPackage){
+    return { ok:false, message:'Silakan pilih paket terlebih dahulu.' };
+  }
+  if(selectedPackage !== 'undecided'){
+    const rules = PACKAGE_RULES[selectedPackage];
+
+    const halamanChecked = Array.from(document.querySelectorAll('#halamanGroup input[type=checkbox]:not(:disabled):checked'));
+    if(rules.maxPages !== null && halamanChecked.length > rules.maxPages){
+      return { ok:false, message:`Jumlah halaman melebihi batas Paket ${rules.name} (maksimal ${rules.maxPages} halaman). Halaman tambahan masuk kategori Add-on.` };
+    }
+
+    const fotoCount = document.getElementById('upload_foto').files.length;
+    if(rules.maxPhotos && fotoCount > rules.maxPhotos){
+      return { ok:false, message:`Jumlah foto melebihi batas Paket ${rules.name} (maksimal ${rules.maxPhotos} foto).` };
+    }
+
+    const loginChecked = document.getElementById('loginPageInput').checked;
+    if(loginChecked && !rules.features.loginRegister){
+      return { ok:false, message:`Login/Register tidak termasuk Paket ${rules.name}. Silakan pilih Paket Gold, atau ajukan sebagai fitur tambahan (Add-on).` };
+    }
+  }
+
+  const addonChecked = document.getElementById('addon_needed').checked;
+  const addonDesc = document.getElementById('addon_desc').value.trim();
+  if(addonChecked && !addonDesc){
+    return { ok:false, message:'Silakan jelaskan fitur tambahan yang dibutuhkan pada kolom Fitur di Luar Paket.' };
+  }
+
+  return { ok:true, message:'' };
+}
+
+/* ================= Helpers nilai form ================= */
+function checkedValues(groupId){
+  return Array.from(document.querySelectorAll('#'+groupId+' input:checked')).map(i=>i.value);
+}
+function radioValue(name){
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : '(belum diisi)';
+}
+function val(id){
+  const el = document.getElementById(id);
+  return el.value.trim() || '(belum diisi)';
+}
+function fileListText(inputId){
+  const files = document.getElementById(inputId).files;
+  if(!files || files.length === 0) return '(belum ada)';
+  return Array.from(files).map(f=>`${f.name} (${fmtSize(f.size)})`).join(', ');
+}
+function packageDisplayName(){
+  if(!selectedPackage) return '(belum dipilih)';
+  if(selectedPackage === 'undecided') return 'Belum yakin — perlu konsultasi';
+  return PACKAGE_RULES[selectedPackage].name;
+}
+
+/* ================= BAGIAN AA — buildSummary & renderReview ================= */
+function buildSummary(){
+  const rules = (selectedPackage && selectedPackage !== 'undecided') ? PACKAGE_RULES[selectedPackage] : null;
+
+  const includedFeatures = rules
+    ? Object.keys(rules.features).filter(k=>rules.features[k]).map(k=>FEATURE_LABELS[k])
+    : [];
+  const addonChecked = document.getElementById('addon_needed').checked;
+
+  return {
+    "DATA PEMOHON": {
+      "Nama Instansi/Usaha": val('nama_instansi'),
+      "Jenis Instansi": radioValue('jenis_instansi'),
+      "Nama CP": val('cp_nama'),
+      "No. WhatsApp": val('cp_wa'),
+      "Alamat/Lokasi": val('alamat'),
+    },
+    "PAKET": {
+      "Paket": packageDisplayName(),
+      "Harga Tahun Pertama": rules ? fmtRupiah(rules.price) : '-',
+      "Perpanjangan": rules ? fmtRupiah(rules.renewal) + '/Tahun' : '-',
+      "Maksimal Halaman": rules ? rules.maxPages : '-',
+      "Revisi": rules ? rules.revisions : '-',
+    },
+    "KEBUTUHAN WEBSITE": {
+      "Nama Website": val('nama_web'),
+      "Jenis Website": radioValue('jenis_web'),
+      "Tujuan Utama": val('tujuan'),
+    },
+    "STRUKTUR WEBSITE": {
+      "Halaman": checkedValues('halamanGroup').join(', ') || '(belum diisi)',
+    },
+    "BRAND": {
+      "Nama Brand": val('nama_brand'),
+      "Tagline": val('tagline_brand'),
+      "Email Brand": val('email_brand'),
+      "Deskripsi": val('deskripsi_brand'),
+      "Warna Brand": val('warna'),
+      "Referensi Website": val('referensi'),
+    },
+    "MEDIA SOSIAL": {
+      "Instagram": val('sosial_ig'),
+      "TikTok": val('sosial_tiktok'),
+      "Facebook": val('sosial_fb'),
+      "YouTube": val('sosial_yt'),
+      "LinkedIn": val('sosial_linkedin'),
+      "Website Saat Ini": val('sosial_web_lama'),
+    },
+    "KONTAK WEBSITE": {
+      "Telepon": val('kontak_telp'),
+      "WhatsApp": val('cp_wa'),
+      "Email": val('kontak_email'),
+      "Alamat": val('alamat'),
+      "Google Maps": val('kontak_maps'),
+      "Jam Operasional": val('kontak_jam'),
+    },
+    "MATERI": {
+      "Materi Tersedia": checkedValues('materiGroup').join(', ') || '(belum diisi)',
+      "Logo": fileListText('upload_logo'),
+      "Foto": fileListText('upload_foto'),
+      "Video": fileListText('upload_video'),
+      "Profil PDF": fileListText('upload_pdf'),
+    },
+    "TIMELINE": {
+      "Deadline": val('deadline'),
+      "Catatan": val('catatan'),
+    },
+    "FITUR TERMASUK PAKET": {
+      "Fitur": includedFeatures.length ? includedFeatures.join(', ') : '(belum ada paket dipilih)',
+    },
+    "FITUR TAMBAHAN": {
+      "Add-on": addonChecked ? (val('addon_desc') + ' ⚠️ ADD-ON / PERLU QUOTATION') : 'Tidak ada',
+    },
+  };
+}
+
+function renderReview(){
+  const sections = buildSummary();
+  const box = document.getElementById('reviewBox');
+  box.innerHTML = '';
+  Object.entries(sections).forEach(([sectionTitle, fields])=>{
+    const h4 = document.createElement('h4'); h4.textContent = sectionTitle;
+    box.appendChild(h4);
+    Object.entries(fields).forEach(([k,v])=>{
+      const dt = document.createElement('dt'); dt.textContent = k;
+      const dd = document.createElement('dd'); dd.textContent = v;
+      box.appendChild(dt); box.appendChild(dd);
+    });
+  });
+
+  const totalFiles = document.getElementById('upload_logo').files.length
+    + document.getElementById('upload_foto').files.length
+    + document.getElementById('upload_video').files.length
+    + document.getElementById('upload_pdf').files.length;
+  const reminderBox = document.getElementById('fileReminderBox');
+  if(totalFiles > 0){
+    reminderBox.innerHTML = `📎 <strong>Ada ${totalFiles} file yang sudah diupload.</strong><br>Tombol "Kirim via WhatsApp" di bawah ini <strong>hanya mengirim data teks</strong>, file TIDAK ikut terkirim. Kembali ke Step 3 dan klik "Bagikan File ke WhatsApp" untuk mengirim filenya secara terpisah.`;
+    reminderBox.style.display = 'block';
+  } else {
+    reminderBox.style.display = 'none';
+    reminderBox.innerHTML = '';
+  }
+
+  goStep(4);
+}
+
+/* ================= BAGIAN AE — Kirim WhatsApp ================= */
+function sendToWhatsApp(){
+  const check = validatePackageScope();
+  if(!check.ok){
+    goStep(3);
+    const scopeAlert = document.getElementById('scopeAlert');
+    scopeAlert.textContent = check.message;
+    scopeAlert.classList.add('show');
+    return;
+  }
+
+  const d = buildSummary();
+  const lines = [
+    "*FORMULIR PENGAJUAN & BRIEFING — ARKDEV*",
+    "",
+    "*A. DATA PEMOHON*",
+    `Nama Instansi: ${d["DATA PEMOHON"]["Nama Instansi/Usaha"]}`,
+    `Jenis Instansi: ${d["DATA PEMOHON"]["Jenis Instansi"]}`,
+    `Nama CP: ${d["DATA PEMOHON"]["Nama CP"]}`,
+    `WhatsApp: ${d["DATA PEMOHON"]["No. WhatsApp"]}`,
+    `Alamat: ${d["DATA PEMOHON"]["Alamat/Lokasi"]}`,
+    "",
+    "*B. PAKET*",
+    `Paket: ${d["PAKET"]["Paket"]}`,
+    `Harga Tahun Pertama: ${d["PAKET"]["Harga Tahun Pertama"]}`,
+    `Perpanjangan: ${d["PAKET"]["Perpanjangan"]}`,
+    `Maksimal Halaman: ${d["PAKET"]["Maksimal Halaman"]}`,
+    `Revisi: ${d["PAKET"]["Revisi"]}`,
+    "",
+    "*C. KEBUTUHAN WEBSITE*",
+    `Nama Website: ${d["KEBUTUHAN WEBSITE"]["Nama Website"]}`,
+    `Jenis Website: ${d["KEBUTUHAN WEBSITE"]["Jenis Website"]}`,
+    `Tujuan: ${d["KEBUTUHAN WEBSITE"]["Tujuan Utama"]}`,
+    "",
+    "*D. STRUKTUR WEBSITE*",
+    `Halaman: ${d["STRUKTUR WEBSITE"]["Halaman"]}`,
+    "",
+    "*E. BRAND*",
+    `Nama Brand: ${d["BRAND"]["Nama Brand"]}`,
+    `Tagline: ${d["BRAND"]["Tagline"]}`,
+    `Email: ${d["BRAND"]["Email Brand"]}`,
+    `Deskripsi: ${d["BRAND"]["Deskripsi"]}`,
+    `Warna: ${d["BRAND"]["Warna Brand"]}`,
+    "",
+    "*F. MEDIA SOSIAL*",
+    `Instagram: ${d["MEDIA SOSIAL"]["Instagram"]}`,
+    `TikTok: ${d["MEDIA SOSIAL"]["TikTok"]}`,
+    `Facebook: ${d["MEDIA SOSIAL"]["Facebook"]}`,
+    `YouTube: ${d["MEDIA SOSIAL"]["YouTube"]}`,
+    `LinkedIn: ${d["MEDIA SOSIAL"]["LinkedIn"]}`,
+    `Website: ${d["MEDIA SOSIAL"]["Website Saat Ini"]}`,
+    "",
+    "*G. KONTAK*",
+    `Telepon: ${d["KONTAK WEBSITE"]["Telepon"]}`,
+    `WhatsApp: ${d["KONTAK WEBSITE"]["WhatsApp"]}`,
+    `Google Maps: ${d["KONTAK WEBSITE"]["Google Maps"]}`,
+    `Jam Operasional: ${d["KONTAK WEBSITE"]["Jam Operasional"]}`,
+    "",
+    "*H. MATERI*",
+    `Materi Tersedia: ${d["MATERI"]["Materi Tersedia"]}`,
+    `Logo: ${d["MATERI"]["Logo"]}`,
+    `Foto: ${d["MATERI"]["Foto"]}`,
+    `Video: ${d["MATERI"]["Video"]}`,
+    `Profil PDF: ${d["MATERI"]["Profil PDF"]}`,
+    "",
+    "*I. FITUR TERMASUK PAKET*",
+    `${d["FITUR TERMASUK PAKET"]["Fitur"]}`,
+    "",
+    "*J. FITUR TAMBAHAN*",
+    `${d["FITUR TAMBAHAN"]["Add-on"]}`,
+    "",
+    "*K. TIMELINE*",
+    `Deadline: ${d["TIMELINE"]["Deadline"]}`,
+    "",
+    "*L. CATATAN*",
+    `${d["TIMELINE"]["Catatan"]}`,
+    "",
+    "_Catatan: file materi (logo/foto/video/PDF) mohon dilampirkan manual jika belum terkirim lewat tombol Bagikan File._"
+  ];
+  const text = encodeURIComponent(lines.join("\n"));
+  window.open(`https://wa.me/${ARKDEV_WA_NUMBER}?text=${text}`, '_blank');
+}
+
+/* ================= Init & Event Listeners ================= */
+function initArkdevForm(){
+  document.querySelectorAll('input[name="paket"]').forEach(radio=>{
+    radio.addEventListener('change', ()=>{
+      selectedPackage = radio.value;
+      updatePackageRestrictions();
+    });
+  });
+
+  document.querySelectorAll('#halamanGroup input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change', enforcePageLimit);
+  });
+
+  document.getElementById('upload_foto').addEventListener('change', function(e){
+    validateFotoCount(e.target.files);
+  });
+  document.getElementById('upload_logo').addEventListener('change', function(e){
+    renderFileList('logoFileList', e.target.files);
+  });
+  document.getElementById('upload_video').addEventListener('change', function(e){
+    renderFileList('videoFileList', e.target.files);
+  });
+  document.getElementById('upload_pdf').addEventListener('change', function(e){
+    renderFileList('pdfFileList', e.target.files);
+  });
+
+  document.getElementById('addon_needed').addEventListener('change', toggleAddonBox);
+
+  updatePackageRestrictions();
+  goStep(1);
+}
+
+initArkdevForm();
+</script>
+
+</body>
+</html>
