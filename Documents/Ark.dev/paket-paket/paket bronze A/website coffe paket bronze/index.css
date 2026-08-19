@@ -1,0 +1,619 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ////////////////////NAVBAR DESKTOP//////////// */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background-color: #1a120c; /* Warna lebih gelap dari background hero agar tidak menyatu */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid #d4a373; /* Garis pembatas emas/krem yang tegas */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Efek bayangan memisahkan navbar dari hero */
+}
+
+.logo {
+  color: #f4e8c1;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #d4a373;
+}
+
+/* Tombol Pesan Sekarang di Navbar */
+.btn-nav-order {
+  background-color: #25d366; /* Warna hijau WhatsApp */
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.btn-nav-order:hover {
+  background-color: #1eb954;
+}
+
+/* Tombol Hamburger (Awalnya tersembunyi di Desktop) */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-toggle .bar {
+  height: 3px;
+  width: 100%;
+  background-color: #f4e8c1;
+  border-radius: 10px;
+}
+
+/* RESPONSIVE LAYOUT (Tampilan HP / Bar Kecil) */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex; /* Tampilkan tombol hamburger di HP */
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #2b1e16;
+    flex-direction: column;
+    padding: 1.5rem 0;
+    gap: 1.2rem;
+    display: none; /* Disembunyikan sebelum di-klik */
+    border-top: 1px solid #3d2b20;
+  }
+
+  /* Kelas aktif saat tombol hamburger di-klik */
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+/* navbar end//////////////////// */
+
+
+
+/* /////////////////HERO SECTION */
+.hero {
+  background: linear-gradient(rgba(43, 30, 22, 0.75), rgba(43, 30, 22, 0.75)), 
+              url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  padding: 0 1.5rem;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #faedcd; /* Warna krem hangat */
+  letter-spacing: 1px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  color: #f4e8c1;
+  line-height: 1.6;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* STYLE TOMBOL HERO */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.btn-primary {
+  background-color: #25d366;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #1eb954;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #d4a373;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #bc8a5f;
+  transform: translateY(-2px);
+}
+
+/* RESPONSIVE HERO DI HP */
+@media (max-width: 768px) {
+  .hero {
+    height: 75vh;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.1rem;
+  }
+  
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+/* hero section */
+
+/* CONTAINER UTAMA */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* SECTION TENTANG KAMI */
+.about-section {
+  padding: 5rem 0;
+  background-color: #fff8f0; /* Warna krem lembut/warm */
+}
+
+.about-content {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.badge {
+  display: inline-block;
+  background-color: #e9edc9;
+  color: #2b1e16;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.about-text h2 {
+  font-size: 2.2rem;
+  color: #2b1e16;
+  margin-bottom: 1.2rem;
+  line-height: 1.3;
+}
+
+.about-text p {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.about-image {
+  flex: 1;
+}
+
+.about-image img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* RESPONSIVE DI HP */
+@media (max-width: 768px) {
+  .about-section {
+    padding: 3rem 0;
+  }
+
+  .about-content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .about-text h2 {
+    font-size: 1.75rem;
+  }
+
+  .about-image img {
+    height: 250px;
+  }
+}
+/* HERO SECTION//////////////////// */
+
+
+/* ////// tentnag */
+/* CONTAINER UTAMA */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* SECTION TENTANG KAMI */
+.about-section {
+  padding: 5rem 0;
+  background-color: #fff8f0; /* Warna krem lembut/warm */
+}
+
+.about-content {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.badge {
+  display: inline-block;
+  background-color: #e9edc9;
+  color: #2b1e16;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.about-text h2 {
+  font-size: 2.2rem;
+  color: #2b1e16;
+  margin-bottom: 1.2rem;
+  line-height: 1.3;
+}
+
+.about-text p {
+  color: #555;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.about-image {
+  flex: 1;
+}
+
+.about-image img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* RESPONSIVE DI HP */
+@media (max-width: 768px) {
+  .about-section {
+    padding: 3rem 0;
+  }
+
+  .about-content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .about-text h2 {
+    font-size: 1.75rem;
+  }
+
+  .about-image img {
+    height: 250px;
+  }
+}
+/* ///////////tetang end */
+
+
+
+/* SECTION MENU UNGGULAN */
+.menu-section {
+  padding: 5rem 0;
+  background-color: #ffffff; /* Warna latar putih agar selang-seling dengan About Us */
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.section-header h2 {
+  font-size: 2.2rem;
+  color: #2b1e16;
+  margin-bottom: 0.5rem;
+}
+
+.section-header p {
+  color: #666;
+  font-size: 1rem;
+}
+
+/* KOTAK KARTU MENU (Grid Layout) */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.menu-card {
+  background-color: #fff8f0;
+  border-radius: 12px;
+  overflow: hidden; /* Agar sudut foto ikut melengkung sesuai border-radius */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-8px); /* Efek melayang saat disentuh/diarahkan kursor */
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.menu-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.menu-info {
+  padding: 1.5rem;
+}
+
+.menu-info h3 {
+  font-size: 1.25rem;
+  color: #2b1e16;
+  margin-bottom: 0.5rem;
+}
+
+.menu-info p {
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+}
+
+/* LABEL HARGA */
+.price {
+  display: inline-block;
+  font-weight: bold;
+  color: #f4e8c1;
+  font-size: 1rem;
+  background-color: #2b1e16; /* Label harga dengan warna kotak gelap */
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+}
+
+
+
+/* //// gallery foto */
+/* SECTION GALERI FOTO */
+.gallery-section {
+  padding: 5rem 0;
+  background-color: #fff8f0; /* Selang-seling warna krem lembut */
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.2rem;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 220px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* EFEK HOVER GAMBAR */
+.gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(43, 30, 22, 0.6); /* Transparansi warna gelap khas kopi */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-overlay span {
+  color: #faedcd;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d4a373;
+  border-radius: 4px;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1); /* Zoom in halus saat kursor mengarah ke foto */
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1; /* Tampilkan teks overlay */
+}
+
+/* RESPONSIVE GALERI DI HP */
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr); /* Tampil 2 kolom foto per baris di HP */
+    gap: 0.8rem;
+  }
+  
+  .gallery-item {
+    height: 160px;
+  }
+}
+/* /// gallery foto end*/
+
+
+
+/* /////////lokasi */
+/* SECTION LOKASI & OPERASIONAL */
+.location-section {
+  padding: 5rem 0;
+  background-color: #ffffff;
+}
+
+.location-content {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.location-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.info-item h3 {
+  color: #2b1e16;
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.info-item p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.location-map {
+  flex: 1;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* FOOTER */
+.footer {
+  background-color: #1a120c;
+  color: #f4e8c1;
+  text-align: center;
+  padding: 1.5rem 0;
+  font-size: 0.9rem;
+  border-top: 1px solid #3d2b20;
+}
+
+/* TOMBOL WHATSAPP MELAYANG (Floating Action Button) */
+.wa-float {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #25d366;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+.wa-float:hover {
+  background-color: #1eb954;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* RESPONSIVE LOKASI DI HP */
+@media (max-width: 768px) {
+  .location-content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .wa-float {
+    bottom: 15px;
+    right: 15px;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+}
+/* ////////lokasi end */
