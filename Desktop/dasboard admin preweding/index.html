@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Wedding Guestbook</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f4f1ea;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 15px;
+        }
+
+        .admin-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .header h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #8b7355;
+            margin: 0 0 5px 0;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #2c2c2c;
+            margin: 0 0 5px 0;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: #777;
+            margin: 0;
+        }
+
+        /* Responsive Grid List */
+        #guestList {
+            display: grid;
+            grid-template-columns: 1fr; /* Default 1 Kolom untuk HP */
+            gap: 15px;
+        }
+
+        /* Kartu Tamu Responsif */
+        .guest-item {
+            background: #faf8f5;
+            border: 1px solid #e8e3d9;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column; /* HP: Susun ke bawah */
+            align-items: center;
+            text-align: center;
+            gap: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease;
+        }
+
+        .guest-img {
+            width: 100%;
+            max-width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .guest-info {
+            width: 100%;
+            flex: 1;
+        }
+
+        .guest-info h4 {
+            margin: 0 0 6px 0;
+            color: #2c2c2c;
+            font-size: 18px;
+            word-break: break-word;
+        }
+
+        .guest-info p {
+            font-size: 13px;
+            color: #666;
+            margin: 0 0 10px 0;
+            word-break: break-word;
+        }
+
+        .guest-info audio {
+            width: 100%;
+            height: 36px;
+            margin-top: 5px;
+        }
+
+        /* Tombol Hapus */
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            width: 100%; /* Lebar penuh di HP */
+            transition: background 0.2s ease;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+
+        /* Breakpoint Tablet & Layar Sedang (≥ 600px) */
+        @media (min-width: 600px) {
+            .guest-item {
+                flex-direction: row; /* Susun menyamping */
+                text-align: left;
+                align-items: center;
+            }
+
+            .guest-img {
+                width: 110px;
+                height: 110px;
+            }
+
+            .btn-delete {
+                width: auto; /* Tombol menyesuaikan isi */
+                align-self: center;
+            }
+        }
+
+        /* Breakpoint Laptop / Desktop (≥ 900px) */
+        @media (min-width: 900px) {
+            #guestList {
+                grid-template-columns: repeat(2, 1fr); /* Tampilkan 2 kolom di layar lebar */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        <header class="header">
+            <h2>Dashboard Admin</h2>
+            <h1>Daftar Ucapan & Foto Tamu</h1>
+            <p>Data masuk secara real-time dari Firebase</p>
+        </header>
+
+        <div id="guestList">
+            <p style="text-align: center; grid-column: 1 / -1;">Memuat data tamu...</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+        // Konfigurasi Firebase
+        const firebaseConfig = {
+          apiKey: "AIzaSyCIcp7tc9ScC8Xzyj5e_330WRTeRP_f9A4",
+          authDomain: "wedding-guestbook-1f0cf.firebaseapp.com",
+          projectId: "wedding-guestbook-1f0cf",
+          storageBucket: "wedding-guestbook-1f0cf.appspot.com",
+          messagingSenderId: "192281203837",
+          appId: "1:192281203837:web:d5977763aec94b2133cd14"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        const guestList = document.getElementById('guestList');
+
+        // Mengambil data real-time dari Firestore
+        db.collection("guests").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+            if (snapshot.empty) {
+                guestList.innerHTML = "<p style='text-align: center; grid-column: 1 / -1;'>Belum ada tamu yang mengisi ucapan.</p>";
+                return;
+            }
+
+            guestList.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const docId = doc.id;
+                
+                const card = document.createElement('div');
+                card.className = 'guest-item';
+                card.innerHTML = `
+                    <img src="${data.photoUrl}" class="guest-img" alt="Foto Tamu">
+                    <div class="guest-info">
+                        <h4>${data.nama}</h4>
+                        <p><b>IG:</b> ${data.instagram}</p>
+                        ${data.audioUrl ? `<audio controls src="${data.audioUrl}"></audio>` : '<p><i>Tidak ada rekaman suara</i></p>'}
+                    </div>
+                    <button class="btn-delete" onclick="hapusTamu('${docId}', '${data.nama}')">🗑️ Hapus</button>
+                `;
+                guestList.appendChild(card);
+            });
+        }, (error) => {
+            console.error("Firestore Error:", error);
+            guestList.innerHTML = "<p style='color:red; text-align:center; grid-column: 1 / -1;'>Gagal mengambil data: " + error.message + "</p>";
+        });
+
+        // Fungsi Hapus Data Tamu
+        async function hapusTamu(id, nama) {
+            const konfirmasi = confirm(`Apakah kamu yakin ingin menghapus ucapan dari "${nama}"?`);
+            if (konfirmasi) {
+                try {
+                    await db.collection("guests").doc(id).delete();
+                    alert(`Data ucapan dari "${nama}" berhasil dihapus!`);
+                } catch (error) {
+                    console.error("Gagal menghapus:", error);
+                    alert("Gagal menghapus data: " + error.message);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
