@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Guestbook</title>
+    <!-- Menghubungkan ke file CSS terpisah -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card">
+        <header class="header">
+            <h2>The Wedding of</h2>
+            <h1>Romeo & Juliet</h1>
+            <p>Abadikan momen & tinggalkan ucapan manismu ✨</p>
+        </header>
+
+        <!-- Form Input Nama & Instagram -->
+        <div class="form-group">
+            <label for="nama">Nama Kamu:</label>
+            <input type="text" id="nama" placeholder="Masukkan nama..." required>
+        </div>
+
+        <div class="form-group">
+            <label for="instagram">Username IG (opsional):</label>
+            <input type="text" id="instagram" placeholder="@username">
+        </div>
+
+        <!-- Section 1: Ambil Foto Langsung dari Kamera (UBAH BAGIAN INI) -->
+        <div class="section-box">
+            <h3>1. Ambil Foto Langsung</h3>
+            
+            <div class="camera-container">
+                <!-- Tampilan live kamera -->
+                <video id="webcam" autoplay playsinline muted></video>
+                <!-- Preview hasil foto setelah dijepret -->
+                <img id="photoResult" style="display: none;" alt="Hasil Foto">
+            </div>
+
+            <!-- Canvas tersembunyi untuk proses jepret -->
+            <canvas id="canvas" style="display: none;"></canvas>
+
+            <div class="camera-controls">
+                <button class="btn btn-secondary" id="btnBukaKamera">📷 Buka Kamera</button>
+                <button class="btn btn-primary" id="btnJepret" style="display: none;">📸 Jepret Foto</button>
+                <button class="btn btn-secondary" id="btnUlangFoto" style="display: none;">🔄 Foto Ulang</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Rekam Suara -->
+        <div class="section-box">
+            <h3>2. Ucapan Suara (Audio)</h3>
+            <div class="audio-controls">
+                <button class="btn btn-mic" id="btnStartMic">🎙️ Mulai Rekam</button>
+                <button class="btn btn-stop" id="btnStopMic" disabled>🛑 Stop</button>
+            </div>
+            <p id="statusRekam" class="status-text"></p>
+            <audio id="audioPreview" controls style="display: none;"></audio>
+        </div>
+
+        <!-- Section 3: Action Buttons -->
+        <div class="section-box">
+            <button class="btn btn-primary" id="btnKirim">🚀 Kirim Ucapan</button>
+        </div>
+    </div>
+
+   <!-- Library Firebase Versi Stabil (Ganti bagian ini di index.html) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+    <!-- Menghubungkan ke file JavaScript terpisah -->
+    <script src="script.js"></script>
+</body>
+</html>
