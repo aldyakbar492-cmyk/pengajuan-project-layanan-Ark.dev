@@ -47,21 +47,7 @@
   color: #d4a373;
 }
 
-/* Tombol Pesan Sekarang di Navbar */
-.btn-nav-order {
-  background-color: #25d366; /* Warna hijau WhatsApp */
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 0.9rem;
-  transition: 0.3s;
-}
 
-.btn-nav-order:hover {
-  background-color: #1eb954;
-}
 
 /* Tombol Hamburger (Awalnya tersembunyi di Desktop) */
 .menu-toggle {
@@ -119,7 +105,7 @@
 /* /////////////////HERO SECTION */
 .hero {
   background: linear-gradient(rgba(43, 30, 22, 0.75), rgba(43, 30, 22, 0.75)), 
-              url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
+              url('image/halaman\ utama\ .jpg') center/cover no-repeat;
   height: 85vh;
   display: flex;
   justify-content: center;
@@ -617,3 +603,70 @@
   }
 }
 /* ////////lokasi end */
+
+
+
+/* ////// footer */
+/* Styling Footer */
+.main-footer {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  padding: 40px 20px 20px 20px;
+  font-family: Arial, sans-serif;
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.footer-box {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-box h3 {
+  color: #e67e22; /* Warna aksen/oranye senja */
+  margin-bottom: 15px;
+}
+
+.footer-box p {
+  color: #cccccc;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+/* Link Sosial Media */
+/* Styling Ikon Sosial Media */
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Membuat tombol lingkaran */
+  background-color: #333333;
+  color: #ffffff;
+  font-size: 18px; /* Ukuran ikon */
+  margin-right: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  background-color: #e67e22; /* Warna berubah oranye saat di-hover */
+  transform: translateY(-3px); /* Efek terangkat sedikit */
+}
+
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #333333;
+  margin-top: 30px;
+  padding-top: 15px;
+  font-size: 13px;
+  color: #888888;
+}
